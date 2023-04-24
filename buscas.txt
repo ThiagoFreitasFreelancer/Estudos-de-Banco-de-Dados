@@ -1,0 +1,4 @@
+
+Aluno Aulas:
+
+select alunos.id, alunos.nome, aulas.esporte from alunos, alunoaula, aulas where alunos.id = alunoaula.aluno_id AND alunoaula.aula_id = aulas.id;
