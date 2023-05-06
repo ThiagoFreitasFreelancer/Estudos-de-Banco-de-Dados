@@ -1,0 +1,1 @@
+INSERT INTO TB_Departamento VALUES(1,'CET', 'Ciencias exatas e Tecnoligicas');

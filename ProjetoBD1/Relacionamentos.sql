@@ -1,0 +1,60 @@
+--Add Constrains
+
+ALTER TABLE TB_Curso ADD CONSTRAINT CodigoCurso PRIMARY KEY("id");
+ALTER TABLE TB_Aluno ADD CONSTRAINT CodigoAluno PRIMARY KEY("matricula");
+ALTER TABLE TB_Colegiado ADD CONSTRAINT CodigoColegiado PRIMARY KEY("id");
+ALTER TABLE TB_Departamento ADD CONSTRAINT CodigoDepartamento PRIMARY KEY("id");
+ALTER TABLE TB_Disciplina ADD CONSTRAINT CodigoDisciplinas PRIMARY KEY("id");
+ALTER TABLE TB_Professores ADD CONSTRAINT CodigoProfessores PRIMARY KEY("id");
+ALTER TABLE TB_Semestre ADD CONSTRAINT CodigoSemestre PRIMARY KEY("id");
+ALTER TABLE TB_DPS ADD CONSTRAINT CodigoDisciplinaProfessor PRIMARY KEY("id");
+
+
+--Add Relacionamentos
+
+
+ALTER TABLE public.TB_Curso ADD CONSTRAINT FK_CursoColegiado FOREIGN KEY ("TB_Colegiado")
+REFERENCES public.TB_Colegiado ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_Curso ADD CONSTRAINT FK_CursoDepartamento FOREIGN KEY ("TB_Departamento")
+REFERENCES public.TB_Departamento ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_Disciplina ADD CONSTRAINT FK_DisciplinaDepartamento FOREIGN KEY ("TB_Departamento")
+REFERENCES public.TB_Departamento ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_Colegiado ADD CONSTRAINT FK_ColegiadoProfessorDiretor FOREIGN KEY ("TB_Professor_Diretor")
+REFERENCES public.TB_Professores ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_Colegiado ADD CONSTRAINT FK_ColegiadoSemestre FOREIGN KEY ("TB_Semestre")
+REFERENCES public.TB_Semestre ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_Aluno ADD CONSTRAINT FK_AlunoCurso FOREIGN KEY ("TB_Curso")
+REFERENCES public.TB_Curso ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_Aluno ADD CONSTRAINT FK_AlunoSemestre FOREIGN KEY ("TB_Semestre")
+REFERENCES public.TB_Semestre ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_Professores ADD CONSTRAINT FK_ProfessorDepartamento FOREIGN KEY ("TB_Departamento")
+REFERENCES public.TB_Departamento ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_DPS ADD CONSTRAINT FK_DisciplinaProfessor FOREIGN KEY ("id_professor")
+REFERENCES public.TB_Professores ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.TB_DPS ADD CONSTRAINT FK_ProfessorDisciplina FOREIGN KEY ("id_disciplina")
+REFERENCES public.TB_Disciplina ("id") MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+
+--Alteração de Tabela
+SELECT "matricula", COUNT("matricula") FROM "TB_Aluno" GROUP BY matricula HAVING COUNT( "matricula" ) > 1 ORDER BY "matricula";
+
+DELETE FROM "TB_Aluno" a USING "TB_Aluno" b WHERE a."matricula" = b."matricula";

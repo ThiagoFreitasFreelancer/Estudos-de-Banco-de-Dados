@@ -1,0 +1,2 @@
+INSERT INTO TB_Semestre VALUES (0);
+INSERT INTO TB_Semestre VALUES (1);

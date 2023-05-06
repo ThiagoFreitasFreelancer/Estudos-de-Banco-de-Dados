@@ -1,0 +1,11 @@
+Normalização do banco
+
+Correções vinda da normalização:
+Grupos separados: Já estava sendo feita
+Tabelas separadas para dados: Já estava sendo feita.
+Dados relacionados com uma chave primária: Já estava sendo feita.
+Metadados: adição de campo “Rua” em tabela endereço, adição de campo “Sobrenome” em tabela varejista,
+Tabelas com chaves estrangeiras: Já estava sendo feita.
+Dependência transitiva: Já estava sendo feita.
+
+

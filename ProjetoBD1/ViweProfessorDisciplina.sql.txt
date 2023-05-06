@@ -1,0 +1,9 @@
+CREATE VIEW public."DisciplinaProfessor"
+ AS
+ SELECT tb_disciplina.id,
+    tb_disciplina.nome,
+   FROM public.tb_disciplina, public.tb_professores
+	WHERE tb_professores.id == tb_disciplina.id;
+
+ALTER TABLE public."DisciplinaProfessor"
+    OWNER TO postgres;
