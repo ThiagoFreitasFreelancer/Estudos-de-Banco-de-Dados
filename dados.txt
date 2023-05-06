@@ -1,0 +1,59 @@
+
+aulas -> turmas, alunos, clientes, preço, .
+quadras -> tipos de quadras, preço das quadras, preço por turno, preço por hora, id, club. 
+
+pagamento -> forma de pagamento, preço, data.
+horarios -> manha, tarde, noite, horas.
+
+alunos -> nome, idade, responsavel, data_inicio, ativo.
+
+cliente.
+colaborador.
+professor.
+administrador.
+
+financeiro.
+clubs -> quadras, aulas. - OK
+Criar uma tabela do financeiro, para gerenciar as tabelas - OK
+Inserir nome do usuario na table cliente - OK
+Uma cliente pode alugar uma quadra - OK
+Uma emprese pode alugar uma quadra - OK
+Criar uma tabela de funcionarios
+Ligar o Cliente ao club
+Criar uma tabela de Aluguel ligada a quadra e ao cliente
+Pagamento: forma de pagamento, ultimo pagamento, 
+Inserir mais dados, de club, cliente, aulas
+Verificar cofram de inserir aluguel mensal e anual
+Tabela de preços para aluguel de quadras, inserir disconto - OK
+
+
+CREATE TABLE Endereco( id integer, rua varchar(20), bairro varchar(100), cidade varchar(100), numero integer );
+
+CREATE TABLE Quadras( id integer, nome varchar(100), club_id integer, tipo_id integer, endereco_id integer );
+
+CREATE TABLE Aulas( id integer, horarios_id integer, quadra_id integer, esporte varchar(200), professor_id integer );
+
+CREATE TABLE Alunos( id integer, aula_id integer, cliente_id integer, nome varchar(200), nascimento date, altura float, peso float, tipoSangue varchar(20), edereco_id integer );
+
+CREATE TABLE HorarioQhadra( quadra_id integer, Horario_id integer, ocupado boolean );
+
+CREATE TABLE Horarios( id integer, data date, horaInicial time, horaFinal time, ocupado boolean );
+
+CREATE TABLE Professor( id integer, nome varchar(100), aula_id integer, descricao text, nascimento date, aultura float, peso float, endereco_id integer );
+
+CREATE TABLE TipoQuadra( id integer, nome varchar(200), descricao text );
+
+CREATE TABLE Club( id integer, nome varchar(100) );
+
+CREATE TABLE Cliente( id integer, nome varchar(100), endereco_id integer  );
+
+CREATE TABLE Pagamento( id integer, quadra_id integer, cliente_id integer, data date, valor float, statusPagamento varchar(100));
+
+EXEMPLOS:
+
+adicionando forengkey na criação da tabela
+CREATE TABLE Financeiro( id integer, DataBalanço date, pagamento_id integer, valorEntrada money, descricao text, FOREIGN KEY (pagamento_id) REFERENCES Pagamento (id));
+
+alterando tabela para inserção de um novo campo
+ALTER TABLE Pagamento ADD COLUMN financeiro_id integer;
+
