@@ -19,7 +19,7 @@ CREATE TABLE Email( proprietario_id integer NOT NULL, id integer UNIQUE, email v
 CREATE TABLE PrecoAluguel( id integer UNIQUE, horas float NOT NULL, valorHora float NOT NULL, tipoQuadra_id integer NOT NULL, dataDoPrecoVigente date NOT NULL, PRIMARY KEY(id) );
 CREATE TABLE Colaborador( id integer UNIQUE, club_id integer NOT NULL, CNPJ integer, CPF integer, nome varchar(100) NOT NULL, sobrenome varchar(100) NOT NULL, descricao text, nascimento date, endereco_id integer NOT NULL, PRIMARY KEY(id) );
 
-INSERT INTO Endereco( id , active, rua, bairro, cidade , numero ) VALUES( 0, null, 'Malhado', 'Feira Guai', 100 );
+INSERT INTO Endereco( id , active, rua, bairro, cidade , numero ) VALUES( 0, null, 'Qualquer', 'Malhado', 'Feira Guai', 100 );
 INSERT INTO Endereco( id , active, rua, bairro, cidade , numero ) VALUES( 1, null, 'São Pedro', 'Malhado', 'Feira', 99 );
 INSERT INTO Endereco( id , active, rua, bairro, cidade , numero ) VALUES( 2, null, 'São Pedro', 'Malhado', 'Feira', 98 );
 INSERT INTO Endereco( id , active, rua, bairro, cidade , numero ) VALUES( 3, null, 'São Pedro', 'Malhado', 'Feira', 97 );
@@ -167,22 +167,21 @@ VALUES
 INSERT INTO Alunos( id, cliente_id, CPF, nome, sobrenome, nascimento, altura, peso, tipoSangue, endereco_id, active) VALUES ( 1,1,74589544120,'jOSE', 'ARAMIS', '1990-01-05', 2.00,70.0,'O',1 );
 
 
-
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 1, 1, 1, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 1, 1, 2, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 1, 1, 3, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 2, 2, 1, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 2, 2, 2, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 2, 2, 3, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 4, 3, 1, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 4, 3, 2, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 4, 3, 3, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 5, 4, 1, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 5, 4, 2, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 5, 4, 3, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 6, 5, 1, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 6, 5, 2, true );
-INSERT INTO HorariosQuadras( aula_id, quadra_id, Horario_id, ocupado ) VALUES( 6, 5, 3, true );
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 1, 1, 1, 1);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 2, 1, 1, 1);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 3, 1, 1, 1);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 4, 2, 2, 2);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 5, 2, 2, 2);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 6, 2, 2, 2);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 7, 3, 4, 3);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 8, 3, 4, 3);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 9, 3, 4, 3);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 10, 4, 5, 4);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 11, 4, 5, 4);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 12, 4, 5, 4);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 13, 5, 6, 5);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 14, 5, 6, 5);
+INSERT INTO HorariosQuadras( id ,aula_id, quadra_id, Horario_id ) VALUES( 15, 5, 6, 5);
 
 INSERT INTO Horarios( id , data , horaInicial , horaFinal , ocupado  ) VALUES( 1, '2023-04-10', '05:00:00', '07:00:00', true );
 INSERT INTO Horarios( id , data , horaInicial , horaFinal , ocupado  ) VALUES( 2, '2023-04-10', '07:00:00', '09:00:00', true );
@@ -193,12 +192,15 @@ INSERT INTO Horarios( id , data , horaInicial , horaFinal , ocupado  ) VALUES( 6
 INSERT INTO Horarios( id , data , horaInicial , horaFinal , ocupado  ) VALUES( 7, '2023-04-10', '19:00:00', '21:00:00', true );
 INSERT INTO Horarios( id , data , horaInicial , horaFinal , ocupado  ) VALUES( 8, '2023-04-10', '21:00:00', '23:00:00', true );
 
-INSERT INTO Professor( id , nome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 1, 'Wanderlei Kali Linux', 'O Mito', '1990-01-01', 2.00, 100.0, 7 );
-INSERT INTO Professor( id , nome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 2, 'Kali Linux', 'O Loco', '1990-01-01', 1.80, 100.0, 7 );
-INSERT INTO Professor( id , nome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 3, 'Wanderlei Linux', 'O Brabo', '1990-01-01', 1.70, 70.0, 5 );
-INSERT INTO Professor( id , nome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 4, 'Wanderlei Kali', 'O Lorde', '1990-01-01', 2.00, 100.0, 7 );
-INSERT INTO Professor( id , nome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 5, 'Linux kali', 'A Lenda', '1990-01-01', 1.59, 50.0, 1 );
-INSERT INTO Professor( id , nome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 6, 'Linux Wanderlei', 'A Supermaquina', '1990-01-01', 2.10, 120.0, 4 );
+CREATE TABLE Professor( id integer UNIQUE, active date, CNPJ integer, CPF integer, nome varchar(100), sobrenome varchar(100), descricao text, nascimento date, aultura float, peso float, endereco_id integer , PRIMARY KEY(id) );
+
+
+INSERT INTO Professor( id , active, CNPJ, CPF, nome, sobrenome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 1, null, 00000000000000, 000000000000, 'Wanderlei Kali Linux', 'O Mito', 'Professor', '1990-01-01', 2.00, 100.0, 7 );
+INSERT INTO Professor( id , active, CNPJ, CPF, nome, sobrenome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 2, null, 00000000000000, 000000000000, 'Kali Linux', 'O Loco', 'Professor', '1990-01-01', 1.80, 100.0, 7 );
+INSERT INTO Professor( id , active, CNPJ, CPF, nome, sobrenome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 3, null, 00000000000000, 000000000000, 'Wanderlei Linux', 'O Brabo', 'Professor', '1990-01-01', 1.70, 70.0, 5 );
+INSERT INTO Professor( id , active, CNPJ, CPF, nome, sobrenome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 4, null, 00000000000000, 000000000000, 'Wanderlei Kali', 'O Lorde', 'Professor', '1990-01-01', 2.00, 100.0, 7 );
+INSERT INTO Professor( id , active, CNPJ, CPF, nome, sobrenome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 5, null, 00000000000000, 000000000000, 'Linux kali', 'A Lenda', 'Professor', '1990-01-01', 1.59, 50.0, 1 );
+INSERT INTO Professor( id , active, CNPJ, CPF, nome, sobrenome , descricao, nascimento, aultura, peso, endereco_id  ) VALUES( 6, null, 00000000000000, 000000000000, 'Linux Wanderlei', 'A Supermaquina', 'Professor', '1990-01-01', 2.10, 120.0, 4 );
 
 INSERT INTO TipoQuadra( id, nome, descricao)  VALUES( 1, 'Basquete', 'Quadra de basquete' );
 INSERT INTO TipoQuadra( id, nome, descricao)  VALUES( 2, 'Baisibool', 'Quadra de baisibol' );
