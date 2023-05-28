@@ -1,23 +1,23 @@
 CREATE TABLE Endereco( id integer UNIQUE, active date, rua varchar(20), bairro varchar(100), cidade varchar(100), numero integer, PRIMARY KEY(id) );
 CREATE TABLE Quadras( id integer UNIQUE,active date, nome varchar(100) NOT NULL, club_id integer NOT NULL, tipo_id integer NOT NULL, endereco_id integer NOT NULL, PRIMARY KEY(id) );
-CREATE TABLE Aluguel( id integer UNIQUE, cliente_id integer NOT NULL, quadra_id integer NOT NULL, dataAluguel date NOT NULL);
-CREATE TABLE Aulas( id integer UNIQUE, active date, esporte varchar(200), professor_id integer NOT NULL, PRIMARY KEY(id) );
+CREATE TABLE Aluguel( id integer UNIQUE, cliente_id integer NOT NULL, quadra_id integer NOT NULL, dataAluguel date NOT NULL, dataFimAluguel date NOT NULL, PRIMARY KEY(id));
+CREATE TABLE Aulas( id integer UNIQUE, aluguel_id integer, active date, esporte varchar(200), professor_id integer NOT NULL, PRIMARY KEY(id) );
 CREATE TABLE AlunoAula( id integer UNIQUE, aluno_id integer NOT NULL, aula_id integer NOT NULL, PRIMARY KEY(id) );
 CREATE TABLE Alunos( id integer UNIQUE, cliente_id integer NOT NULL, CPF integer, nome varchar(200) NOT NULL, sobrenome varchar(100), nascimento date, altura float, peso float, tipoSangue varchar(20) NOT NULL, endereco_id integer NOT NULL, active date, PRIMARY KEY(id) );
 CREATE TABLE HorariosQuadras( id integer UNIQUE, aula_id integer NOT NULL, quadra_id integer NOT NULL, Horario_id integer NOT NULL, PRIMARY KEY(id) );
 CREATE TABLE Horarios( id integer UNIQUE, data date NOT NULL, horaInicial time NOT NULL, horaFinal time NOT NULL, ocupado boolean NOT NULL, PRIMARY KEY(id) );
 CREATE TABLE Professor( id integer UNIQUE, active date, CNPJ integer, CPF integer, nome varchar(100), sobrenome varchar(100), descricao text, nascimento date, aultura float, peso float, endereco_id integer , PRIMARY KEY(id) );
 CREATE TABLE TipoQuadra( id integer UNIQUE, nome varchar(200) NOT NULL, descricao text , PRIMARY KEY(id) );
-CREATE TABLE Club( id integer UNIQUE,active date, nome varchar(100) NOT NULL, quantidadeMembros integer NOT NULL, descriacao text, cedeEndereco_id integer, PRIMARY KEY(id));
-CREATE TABLE Cliente( id integer UNIQUE,active date, nome varchar(100) NOT NULL, sobrenome varchar(200) NOT NULL, CPF integer, CNPJ integer, endereco_id integer, PRIMARY KEY(id) );
-CREATE TABLE Pagamento( id integer UNIQUE, aluguel_id integer NOT NULL, finaceiro_id integer NOT NULL, quadra_id integer NOT NULL, cliente_id integer NOT NULL, data date NOT NULL, valor float NOT NULL, statusPagamento varchar(100) NOT NULL, PRIMARY KEY(id) );
+CREATE TABLE Club( id integer UNIQUE, active date, nome varchar(100) NOT NULL, quantidadeMembros integer NOT NULL, descriacao text, cedeEndereco_id integer, PRIMARY KEY(id));
+CREATE TABLE Cliente( id integer UNIQUE, active date, nome varchar(100) NOT NULL, sobrenome varchar(200) NOT NULL, CPF integer, CNPJ integer, endereco_id integer, PRIMARY KEY(id) );
+CREATE TABLE Pagamento( id integer UNIQUE, aluguel_id integer NOT NULL, quadra_id integer NOT NULL, cliente_id integer NOT NULL, data date NOT NULL, valor float NOT NULL, statusPagamento varchar(100) NOT NULL, PRIMARY KEY(id) );
 CREATE TABLE Adm( id integer UNIQUE,active date, adm boolean, CPF integer NOT NULL, nome varchar(100) NOT NULL, sobrenome varchar(100) NOT NULL, endereco_id integer NOT NULL, PRIMARY KEY(id) );
 CREATE TABLE Saida( id integer UNIQUE, valorSaida money NOT NULL, DataSaida date NOT NULL, descricao text,  adm_Id integer NOT NULL, PRIMARY KEY(id) );
-CREATE TABLE Financeiro( id integer UNIQUE, Pagamento_Saida_id integer NOT NULL, DataBalanco date NOT NULL, valorEntrada money NOT NULL, descricao text, PRIMARY KEY(id) );
+CREATE TABLE Financeiro( id integer UNIQUE, Pagamento_Saida_id integer NOT NULL, DataBalanco date NOT NULL, Pagamento_entrada_id money NOT NULL, descricao text, PRIMARY KEY(id) );
 CREATE TABLE Telefone( proprietario_id integer NOT NULL, id integer UNIQUE, DD integer NOT NULL, numero integer NOT NULL, tipo varchar(100), PRIMARY KEY(id) );
 CREATE TABLE Email( proprietario_id integer NOT NULL, id integer UNIQUE, email varchar(200) NOT NULL, PRIMARY KEY(id) );
 CREATE TABLE PrecoAluguel( id integer UNIQUE, horas float NOT NULL, valorHora float NOT NULL, tipoQuadra_id integer NOT NULL, dataDoPrecoVigente date NOT NULL, PRIMARY KEY(id) );
-CREATE TABLE Colaborador( id integer UNIQUE, club_id integer NOT NULL, CNPJ integer, CPF integer, nome varchar(100) NOT NULL, sobrenome varchar(100) NOT NULL, descricao text, nascimento date, endereco_id integer NOT NULL, PRIMARY KEY(id) );
+CREATE TABLE Colaborador( id integer UNIQUE, club_id integer NOT NULL, CNPJ integer, CPF integer, nome varchar(100) NOT NULL, sobrenome varchar(100) NOT NULL, descricao text, nascimento date, endereco_id integer NOT NULL, contrato varchar(100), PRIMARY KEY(id) );
 
 INSERT INTO Financeiro( id, Pagamento_Saida_id, DataBalanco, valorEntrada, descricao ) VALUES( 1, 1, '2023-04-10', 5005.00, 'Descrição' );
 INSERT INTO Financeiro( id, Pagamento_Saida_id, DataBalanco, valorEntrada, descricao ) VALUES( 2, 1, '2023-04-10', 300.00, 'Descrição de teste' );
@@ -25,7 +25,6 @@ INSERT INTO Financeiro( id, Pagamento_Saida_id, DataBalanco, valorEntrada, descr
 INSERT INTO Financeiro( id, Pagamento_Saida_id, DataBalanco, valorEntrada, descricao ) VALUES( 4, 2, '2013-09-25', 578.00, 'Descrição dercrição' );
 INSERT INTO Financeiro( id, Pagamento_Saida_id, DataBalanco, valorEntrada, descricao ) VALUES( 5, 3, '2010-04-10', 5705.00, 'sc' );
 INSERT INTO Financeiro( id, Pagamento_Saida_id, DataBalanco, valorEntrada, descricao ) VALUES( 6, 1, '2005-01-10', 5089.00, 'ão' );
-
 
 INSERT INTO Endereco( id , active, rua, bairro, cidade , numero ) VALUES( 0, null, 'Qualquer', 'Malhado', 'Feira Guai', 100 );
 INSERT INTO Endereco( id , active, rua, bairro, cidade , numero ) VALUES( 1, null, 'São Pedro', 'Malhado', 'Feira', 99 );
@@ -43,13 +42,14 @@ INSERT INTO Quadras( id , active, nome, club_id, tipo_id, endereco_id  ) VALUES(
 INSERT INTO Quadras( id , active, nome, club_id, tipo_id, endereco_id  ) VALUES( 5, null, 'Bela Não Vista', 1, 5, 7);
 INSERT INTO Quadras( id , active, nome, club_id, tipo_id, endereco_id  ) VALUES( 6, null, 'Bela Quase Vista', 1, 6, 7);
 
-INSERT INTO Aulas( id, active, esporte, professor_id  ) VALUES( 1, null, 'Basquete', 1 );
-INSERT INTO Aulas( id, active, esporte, professor_id  ) VALUES( 2, null, 'Baisibool', 2 );
-INSERT INTO Aulas( id, active, esporte, professor_id  ) VALUES( 3, null, 'Volei', 3 );
-INSERT INTO Aulas( id, active, esporte, professor_id  ) VALUES( 4, null, 'Tenis', 4 );
-INSERT INTO Aulas( id, active, esporte, professor_id  ) VALUES( 5, null, 'Fotebool', 5 );
-INSERT INTO Aulas( id, active, esporte, professor_id  ) VALUES( 6, null, 'Fotesal', 6 );
-INSERT INTO Aulas( id, active, esporte, professor_id  ) VALUES( 7, null, 'PingPong', 6 );
+INSERT INTO Aulas( id, aluguel_id, active, esporte, professor_id  ) VALUES( 1, 1, null, 'Basquete', 1 );
+INSERT INTO Aulas( id, aluguel_id, active, esporte, professor_id  ) VALUES( 2, 1, null, 'Baisibool', 2 );
+INSERT INTO Aulas( id, aluguel_id, active, esporte, professor_id  ) VALUES( 3, 2, null, 'Volei', 3 );
+INSERT INTO Aulas( id, aluguel_id, active, esporte, professor_id  ) VALUES( 4, 2, null, 'Tenis', 4 );
+INSERT INTO Aulas( id, aluguel_id, active, esporte, professor_id  ) VALUES( 5, 3,null, 'Fotebool', 5 );
+INSERT INTO Aulas( id, aluguel_id, active, esporte, professor_id  ) VALUES( 6, 3,null, 'Fotesal', 6 );
+INSERT INTO Aulas( id, aluguel_id, active, esporte, professor_id  ) VALUES( 7, 4,null, 'PingPong', 6 );
+INSERT INTO Aulas( id, aluguel_id, active, esporte, professor_id  ) VALUES( 8, 4,null, 'PingPong', 6 );
 
 INSERT INTO AlunoAula (id,aluno_id,aula_id)
 VALUES
@@ -227,17 +227,22 @@ INSERT INTO Club( id, active, nome, quantidademembros, descriacao, cedeendereco_
 INSERT INTO Club( id, active, nome, quantidademembros, descriacao, cedeendereco_id ) VALUES( 6, null, 'Santos', 9, 'descrição', 6 );
 INSERT INTO Club( id, active, nome, quantidademembros, descriacao, cedeendereco_id ) VALUES( 7, null, 'Cruzeiro', 7, 'descrição', 7 );
 
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 0, null, 'Milian', 'Nigro', 98735566523, null, 1 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 1, null, 'Thiago', 'Nigro', 98736566523, null, 1 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 2, null, 'Nigro', 'Firgo', 98734766523, null, 2 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 3, null, 'Th', 'Santana', 98734886523, null, 3 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 4, null, 'Miliam', 'susu', 98799966523, null, 4 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 5, null, 'São', 'Rafael', 98734116523, null, 5 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 6, null, 'TTHH', 'Jesuel', 98732266523, null, 6 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 7, null, 'CICI', 'Jesuel', 98733366523, null, 6 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 8, null, 'Paula', 'Rafael', 98734566523, null, 5 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 9, null, 'CICI', 'Jesuel', 98734566623, null, 1 );
-INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpf, endereco_id ) VALUES( 10, null, 'CICI', 'Jesuel', 98734511523, null, 2 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 0, null, 'Milian', 'Nigro', 566523, null, 1 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 1, null, 'Thiago', 'Nigro', 566523, null, 1 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 2, null, 'Nigro', 'Firgo', 766523, null, 2 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 3, null, 'Th', 'Santana', 886523, null, 3 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 4, null, 'Miliam', 'susu',9966523, null, 4 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 5, null, 'São', 'Rafael', 16523, null, 5 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 6, null, 'TTHH', 'Jesuel', 66523, null, 6 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 7, null, 'CICI', 'Jesuel', 366523, null, 6 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 8, null, 'Paula', 'Rafael',566523, null, 5 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 9, null, 'CICI', 'Jesuel', 966623, null, 1 );
+INSERT INTO Cliente( id, active, nome, sobrenome, cpf, cnpj, endereco_id ) VALUES( 10, null, 'CICI', 'Jesuel', 511523, null, 2 );
+
+INSERT INTO Aluguel( id , cliente_id, quadra_id, dataAluguel, dataFimAluguel) VALUES( 1, 1, 1, '2023-10-01', '2023-12-01' );
+INSERT INTO Aluguel( id , cliente_id, quadra_id, dataAluguel, dataFimAluguel) VALUES( 2, 1, 2, '2023-10-01', '2023-12-01' );
+INSERT INTO Aluguel( id , cliente_id, quadra_id, dataAluguel, dataFimAluguel) VALUES( 3, 2, 1, '2023-10-01', '2023-12-01' );
+INSERT INTO Aluguel( id , cliente_id, quadra_id, dataAluguel, dataFimAluguel) VALUES( 4, 2, 2, '2023-10-01', '2023-12-01' );
 
 INSERT INTO Pagamento( id, aluguel_id, finaceiro_id, quadra_id, cliente_id, data, valor, statusPagamento ) VALUES( 1, 1, 1, 1, 1, '2023-10-01', 1250.55, 'Kitado' );
 INSERT INTO Pagamento( id, aluguel_id, finaceiro_id, quadra_id, cliente_id, data, valor, statusPagamento ) VALUES( 2, 1, 1, 2, 1, '2020-10-01', 9250.55, 'Kitado' );
@@ -256,12 +261,24 @@ ALTER TABLE public.Quadras ADD CONSTRAINT Quadra_Tipo FOREIGN KEY (tipo_id)
 REFERENCES public.TipoQuadra (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
+ALTER TABLE public.Aluguel ADD CONSTRAINT Aluguel_Cliente FOREIGN KEY (cliente_id)
+REFERENCES public.Cliente (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Aluguel ADD CONSTRAINT Aluguel_Quadra FOREIGN KEY (quadra_id)
+REFERENCES public.Quadras (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
 ALTER TABLE public.Alunos ADD CONSTRAINT Aluno_Cliente FOREIGN KEY (cliente_id)
 REFERENCES public.Cliente (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
 ALTER TABLE public.Aulas ADD CONSTRAINT Aulas_Professor FOREIGN KEY (professor_id)
 REFERENCES public.Professor (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Aulas ADD CONSTRAINT Aulas_Aluguel FOREIGN KEY (aluguel_id)
+REFERENCES public.Aluguel (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
 ALTER TABLE public.Alunos ADD CONSTRAINT Aluno_Endereco FOREIGN KEY (endereco_id)
@@ -296,10 +313,94 @@ ALTER TABLE public.Cliente ADD CONSTRAINT Cliente_Endereco FOREIGN KEY (endereco
 REFERENCES public.Endereco (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
+ALTER TABLE public.Club ADD CONSTRAINT Club_Endereco FOREIGN KEY (cedeEndereco_id)
+REFERENCES public.Endereco (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
 ALTER TABLE public.Pagamento ADD CONSTRAINT Pagamento_Quadra FOREIGN KEY (quadra_id)
 REFERENCES public.Quadras (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
 
 ALTER TABLE public.Pagamento ADD CONSTRAINT Pagamento_Cliente FOREIGN KEY (cliente_id)
 REFERENCES public.Cliente (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Pagamento ADD CONSTRAINT Pagamento_Aluguel FOREIGN KEY (aluguel_id)
+REFERENCES public.Aluguel (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Adm ADD CONSTRAINT Adm_Endereco FOREIGN KEY (endereco_id)
+REFERENCES public.Endereco (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Financeiro ADD CONSTRAINT Financeiro_Saida FOREIGN KEY (Pagamento_Saida_id)
+REFERENCES public.Saida (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Financeiro ADD CONSTRAINT Financeiro_Entrada FOREIGN KEY (Pagamento_Entrada_id)
+REFERENCES public.Pagamento (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Telefone ADD CONSTRAINT Telefone_cliente FOREIGN KEY (proprietario_id)
+REFERENCES public.Cliente (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Telefone ADD CONSTRAINT Telefone_adm FOREIGN KEY (proprietario_id)
+REFERENCES public.Adm (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Telefone ADD CONSTRAINT Telefone_quadra FOREIGN KEY (proprietario_id)
+REFERENCES public.Quadras (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Telefone ADD CONSTRAINT Telefone_club FOREIGN KEY (proprietario_id)
+REFERENCES public.Club (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Telefone ADD CONSTRAINT Telefone_professor FOREIGN KEY (proprietario_id)
+REFERENCES public.Professor (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Telefone ADD CONSTRAINT Telefone_colaborador FOREIGN KEY (proprietario_id)
+REFERENCES public.Colaborador (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Telefone ADD CONSTRAINT Telefone_aluno FOREIGN KEY (proprietario_id)
+REFERENCES public.Alunos (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Email ADD CONSTRAINT Email_Cliente FOREIGN KEY (proprietario_id)
+REFERENCES public.Cliente (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Email ADD CONSTRAINT Email_Aluno FOREIGN KEY (proprietario_id)
+REFERENCES public.Aluno (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Email ADD CONSTRAINT Email_Adm FOREIGN KEY (proprietario_id)
+REFERENCES public.Adm (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Email ADD CONSTRAINT Email_Professor FOREIGN KEY (proprietario_id)
+REFERENCES public.Professor (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Email ADD CONSTRAINT Email_Club FOREIGN KEY (proprietario_id)
+REFERENCES public.Club (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Email ADD CONSTRAINT Email_Colaborador FOREIGN KEY (proprietario_id)
+REFERENCES public.Colaborador (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.PrecoAluguel ADD CONSTRAINT PrecoAluguel_tipoQuadra FOREIGN KEY (tipoQuadra_id)
+REFERENCES public.TipoQuadra (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Colaborador ADD CONSTRAINT Colaborador_Club FOREIGN KEY (club_id)
+REFERENCES public.Club (id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;
+
+ALTER TABLE public.Colaborador ADD CONSTRAINT Colaborador_Endereco FOREIGN KEY (endereco_id)
+REFERENCES public.Endereco (id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION NOT DEFERRABLE;

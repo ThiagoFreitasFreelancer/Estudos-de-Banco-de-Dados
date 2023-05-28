@@ -1,0 +1,28 @@
+
+
+O banco tem que ajudar no negocio. SEMPRE PENSAR NA FORMA DE GANHAR DINHEIRO
+
+Tem como fazer um distisct e procurar coisas expecificas
+
+Tem como inserir apartir de um Id especifico tipo: so insere apartir de 10 logo 11, 12, 13...
+
+Tem como utilizar operadores logicos nas consultas
+
+posso usar BETWENN(entre), um intervalo: exemplo BETWEEN 12 AND 15, posso utilizar o NOT tbm para pegar o que ta fora do intervalo
+
+Posso buscas varios elementgos SELECT * FROM TABELA WHERE COLUNA IN (12, 15) tras todo mundo que tem esses valores da tabela TABELA, olhando o campo COLUNA
+
+sempre optar por palavras reservadas do banco 
+
+sempre usar Date, TimeStamp, Time para campos de Data,
+efetuar normalização do banco se atentando para campos multivalorados.
+
+campos que são tabelas:
+
+email
+telefone | tipoTelefone
+endereço
+
+relacionamentos que levam a 3 tabelas:
+n para n
+

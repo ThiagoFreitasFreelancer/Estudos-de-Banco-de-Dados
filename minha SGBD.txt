@@ -1,0 +1,5 @@
+nome da sgbd: SGBDPostgres
+
+iniciar sgbd: postgres -D SGBDPostgres/
+
+tem que ser no diretorio inicial: postgres@TrabalhoCEPEDI:~$    -> não pode ser o postgres@TrabalhoCEPEDI:/$

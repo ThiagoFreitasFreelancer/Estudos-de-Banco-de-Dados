@@ -1,0 +1,7 @@
+pasta do postgres /etc/postgresql/15/main
+
+este caminho chega tbm /var/lib/postgresql
+
+whereis postgresql: mostra o caminho do comando
+
+onde esta instalado: /usr/lib/postgresql/15/bin
