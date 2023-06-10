@@ -57,3 +57,28 @@ CREATE TABLE Financeiro( id integer, DataBalanço date, pagamento_id integer, va
 alterando tabela para inserção de um novo campo
 ALTER TABLE Pagamento ADD COLUMN financeiro_id integer;
 
+é possivel utilizar CASE junto com o select
+
+DATE -> current_date - retorna data
+        now - data e hora atual
+
+        eu posso somar dias, meses e ate ate anos em uma data.
+        No select sempre formatar data e saidas numericas
+
+funções :nas consultas, é bem mais rapido o banco fazer isso
+ lower
+ upper
+ length
+ lpad - alinhamento a direita
+ rpad - alinhamento a esquerda
+ ltrim - para fazer cortes da esquerda para direita
+ rtrim - da direita para a esquerda
+ strpos - devolve a posição que a estring esta
+ substring - subistituir substring
+ replace
+ overlay
+ concatenação
+ MD5 - hast
+ translate
+ UTILIZAR JUNTO -> row_number - inumera pela ordem de inseção || over, dentro do campo over é possivel usar o ordby
+ operações com valores numericos +, -, *, /, %, ^, DIV (inteira), TRUNC, CIEL aredondamento, random

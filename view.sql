@@ -13,3 +13,5 @@ Horarios.horainicial, Horarios.horafinal FROM horarios
 INNER JOIN HorariosQuadras ON HorariosQuadras.horario_id = horarios.id
 INNER JOIN Quadras ON HorariosQuadras.quadra_id = quadras.id;
 
+CREATE VIEW alunos_idade AS SELECT alunos.nome, alunos.nascimento,(SELECT calcular_idade(alunos.nascimento)
+) AS idade FROM alunos;
